@@ -55,13 +55,13 @@ cd terraform-azure-migratorydata/deploy
   - `migratorydata_download_url` - The download URL for the MigratoryData package.
 
 ```bash
-location        = "eastus"
+region        = "eastus"
 namespace       = "migratorydata"
 additional_tags = {}
 
 cidr_block = "10.0.0.0/16"
 
-num_instances     = 5
+num_instances     = 3
 max_num_instances = 5
 instance_type      = "Standard_F2s_v2"
 
