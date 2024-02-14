@@ -4,7 +4,7 @@ locals {
   public_ips  = azurerm_linux_virtual_machine.vm[*].public_ip_address
   
   count_range               = range(0, var.max_num_instances)
-  migratorydata_cluster_ips = join(",", [for index in local.count_range : format("%s:8801", cidrhost(var.cidr_block, index + 5))])
+  migratorydata_cluster_ips = join(",", [for index in local.count_range : format("%s:8801", cidrhost(var.address_space, index + 5))])
 }
 
 resource "azurerm_availability_set" "az_set" {

@@ -18,7 +18,7 @@ variable "max_num_instances" {
   type = number
 }
 
-variable "cidr_block" {
+variable "address_space" {
   type = string
 }
 

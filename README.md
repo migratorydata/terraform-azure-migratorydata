@@ -48,7 +48,7 @@ cd terraform-azure-migratorydata/deploy
 
   - `region` - The Azure region where the resources will be deployed.
   - `namespace` - The namespace for the resources.
-  - `cidr_block` - The CIDR block for the virtual network.
+  - `address_space` - The address space for the virtual network.
   - `num_instances` - The number of instances to be deployed.
   - `max_num_instances` - The maximum number of instances to be deployed.
   - `instance_type` - The type of the virtual machines to be deployed.
@@ -59,7 +59,7 @@ region        = "eastus"
 namespace       = "migratorydata"
 additional_tags = {}
 
-cidr_block = "10.0.0.0/16"
+address_space = "10.0.0.0/16"
 
 num_instances     = 3
 max_num_instances = 5
