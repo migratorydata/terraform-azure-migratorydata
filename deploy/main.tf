@@ -43,6 +43,7 @@ module "migratorydata_cluster" {
   migratorydata_download_url = var.migratorydata_download_url
   max_num_instances          = var.max_num_instances
   address_space              = var.address_space
+  ssh_private_key            = var.ssh_private_key
 }
 
 module "migratorydata_lb" {

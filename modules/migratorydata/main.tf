@@ -7,16 +7,14 @@ locals {
   migratorydata_cluster_ips = join(",", [for index in local.count_range : format("%s:8801", cidrhost(var.address_space, index + 5))])
 }
 
+data "tls_public_key" "private_key_openssh" {
+  private_key_openssh = file(var.ssh_private_key)
+}
+
 resource "azurerm_availability_set" "az_set" {
   name                = "${var.namespace}_availability-set"
   location            = var.location
   resource_group_name = var.resource_group_name
-}
-
-# Create (and display) an SSH key
-resource "tls_private_key" "ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
 }
 
 # Create virtual machine
@@ -38,13 +36,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     disk_size_gb         = "30"
   }
 
-  # source_image_reference {
-  #   publisher = "Canonical"
-  #   offer     = "0001-com-ubuntu-server-focal"
-  #   sku       = "20_04-lts-gen2"
-  #   version   = "latest"
-  # }
-
   source_image_reference {
     publisher = "Debian"
     offer     = "debian-12-daily"
@@ -58,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   admin_ssh_key {
     username   = local.ssh_user
-    public_key = tls_private_key.ssh.public_key_openssh
+    public_key = data.tls_public_key.private_key_openssh.public_key_openssh
   }
 
   tags = merge(var.additional_tags, {
@@ -78,7 +69,7 @@ resource "null_resource" "migratorydata_provissioner" {
     type        = "ssh"
     host        = local.public_ips[count.index]
     user        = local.ssh_user
-    private_key = tls_private_key.ssh.private_key_pem
+    private_key = file(var.ssh_private_key)
   }
 
   provisioner "file" {

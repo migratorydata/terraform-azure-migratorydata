@@ -8,5 +8,6 @@ num_instances     = 3
 max_num_instances = 5
 instance_type     = "Standard_F2s_v2"
 
+ssh_private_key = "~/.ssh/id_rsa"
 
 migratorydata_download_url = "https://migratorydata.com/releases/migratorydata-6.0.15/migratorydata-6.0.15-build20240209.x86_64.deb"

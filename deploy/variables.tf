@@ -118,6 +118,11 @@ variable "instance_type" {
   default     = "Standard_F2s_v2"
 }
 
+variable "ssh_private_key" {
+  description = "The private key to use when connecting to the instances."
+  type        = string
+}
+
 variable "lb_port" {
   description = "(Required) Protocols to be used for lb rules. Format as [frontend_port, protocol, backend_port]"
   type        = map(any)

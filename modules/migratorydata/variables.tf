@@ -37,3 +37,8 @@ variable "max_num_instances" {
 variable "address_space" {
   type = string
 }
+
+variable "ssh_private_key" {
+  description = "The private key to use when connecting to the instances."
+  type        = string
+}
