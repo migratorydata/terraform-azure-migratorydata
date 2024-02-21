@@ -60,6 +60,20 @@ ssh_private_key = "~/.ssh/id_rsa"
 migratorydata_download_url = "https://migratorydata.com/releases/migratorydata-6.0.15/migratorydata-6.0.15-build20240209.x86_64.deb"
 ```
 
+## SSH keys
+
+For terraform to install all the necessary files on the VM instances, you need to provide the private key to access the VM machines.
+
+You can generate a new SSH key pair using the `ssh-keygen` command on your local machine, and then set the path to private key to the terraform deployment using var `ssh_private_key`. Here's how you can do it:
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+This will generate in the `.ssh` directory a public key, i.e. `~/.ssh/id_rsa.pub`, and a private key, i.e. `~/.ssh/id_rsa`. 
+
+Update `terraform.tfvars` file with the path to the private key.
+
 ## Deploy MigratoryData
 
 Initialize terraform:
