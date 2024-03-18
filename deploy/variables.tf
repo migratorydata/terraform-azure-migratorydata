@@ -93,6 +93,50 @@ variable "migratorydata_ingress_security_rules" {
       destination_address_prefix = "*"
     },
     {
+      name                       = "prometheus"
+      priority                   = 106
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "9900"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    },
+    {
+      name                       = "grafana"
+      priority                   = 107
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "3000"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    },
+    {
+      name                       = "loki"
+      priority                   = 108
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "3100"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    },
+    {
+      name                       = "promtail"
+      priority                   = 109
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "9080"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    },
+    {
       name                       = "outgoing"
       priority                   = 200
       direction                  = "Outbound"
@@ -145,8 +189,14 @@ variable "max_num_instances" {
   default     = 5
 }
 
-variable "migratorydata_download_url" {
-  description = "(Required) The URL to download the MigratoryData package"
-  type = string
+variable "enable_monitoring" {
+  description = "Enable monitoring for the MigratoryData cluster."
+  type        = bool
+  default     = false
 }
 
+variable "ssh_user" {
+  description = "The user name to use when connecting to the instances."
+  type        = string
+  default     = "azureuser"
+}

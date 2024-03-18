@@ -25,3 +25,8 @@ variable "address_space" {
 variable "nsg_id" {
   type = string
 }
+
+variable "enable_monitoring" {
+  description = "Enable monitoring for the MigratoryData cluster."
+  type        = bool
+}

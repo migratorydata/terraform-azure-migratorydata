@@ -28,22 +28,25 @@ module "migratorydata_network" {
   address_space       = var.address_space
   nsg_id              = module.migratorydata_network_security_group.nsg_id
   additional_tags     = var.additional_tags
+  enable_monitoring   = var.enable_monitoring
 }
 
 module "migratorydata_cluster" {
   source = "../modules/migratorydata"
 
-  namespace                  = var.namespace
-  location                   = azurerm_resource_group.rg.location
-  resource_group_name        = azurerm_resource_group.rg.name
-  nic_ids                    = module.migratorydata_network.nic_ids
-  num_instances              = var.num_instances
-  instance_type              = var.instance_type
-  additional_tags            = var.additional_tags
-  migratorydata_download_url = var.migratorydata_download_url
-  max_num_instances          = var.max_num_instances
-  address_space              = var.address_space
-  ssh_private_key            = var.ssh_private_key
+  namespace           = var.namespace
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  nic_cluster         = module.migratorydata_network.nic_cluster
+  nic_monitor         = module.migratorydata_network.nic_monitor
+  num_instances       = var.num_instances
+  instance_type       = var.instance_type
+  additional_tags     = var.additional_tags
+  max_num_instances   = var.max_num_instances
+  address_space       = var.address_space
+  ssh_private_key     = var.ssh_private_key
+  ssh_user            = var.ssh_user
+  enable_monitoring   = var.enable_monitoring
 }
 
 module "migratorydata_lb" {

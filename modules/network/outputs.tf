@@ -1,6 +1,11 @@
-output "nic_ids" {
+output "nic_cluster" {
   description = "the id of the network interface"
-  value       = [for nic in azurerm_network_interface.nic : nic.id]
+  value       = [for nic in azurerm_network_interface.nic_cluster : nic.id]
+}
+
+output "nic_monitor" {
+  description = "the id of the network interface for monitoring"
+  value       = azurerm_network_interface.nic_monitor[0].id
 }
 
 output "subnet_ids" {
