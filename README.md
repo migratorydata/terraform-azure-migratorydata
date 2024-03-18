@@ -2,6 +2,8 @@
 
 A Terraform module to deploy and run MigratoryData on Microsoft Azure using Ansible.
 
+This guide provides a step-by-step process to create an infrastructure on Azure using Terraform, and deploy a MigratoryData Push Server cluster using Ansible. It also covers how to add a monitoring module, using Ansible, that installs Prometheus and Grafana for real-time statistics. Additionally, the guide includes instructions on how to update the MigratoryData Push Server across all instances.
+
 ## Prerequisites
 
 Before deploying MigratoryData using Terraform, ensure that you have a Microsoft Azure account and have installed the following tools:
@@ -9,14 +11,6 @@ Before deploying MigratoryData using Terraform, ensure that you have a Microsoft
   - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
   - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
   - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-
-## Install Ansible on MacOS
-
-You can install Ansible on Mac OS using the following command:
-
-```bash
-brew install ansible
-```
 
 ## Login to Azure
 
@@ -65,7 +59,14 @@ max_num_instances = 5
 instance_type     = "Standard_F2s_v2"
 
 ssh_private_key = "~/.ssh/id_rsa"
+
+enable_monitoring = true
 ```
+
+To update the version of MigratoryData Push server, update the `ansible/vars.yaml` file. The following variables are required:
+
+  - `package_url` - The URL where the MigratoryData package can be downloaded.
+  - `package_name` - The name of the MigratoryData package.
 
 ## SSH keys
 
@@ -80,17 +81,17 @@ Executing this command will create a new RSA key pair with a key size of 4096 bi
 
 ## Deploy the infrastructure
 
-Initialize terraform:
+Before Terraform can manage any resources, it needs to be initialized. Initialization prepares Terraform for use by downloading the necessary provider plugins:
 ```bash
 terraform init
 ```
 
-Check the deployment plan:
+It's always a good practice to check the deployment plan before applying it. This will give you an overview of the changes that will be made to your infrastructure:
 ```bash
 terraform plan
 ```
 
-Apply the deployment plan:
+Once you've reviewed and are satisfied with the deployment plan, you can apply it:
 ```bash
 terraform apply
 ```
@@ -191,14 +192,14 @@ The `ansible/update.yaml` playbook contains tasks that update the MigratoryData 
 
 ## Scale
 
-To scale the deployment, update the `num_instances` variable in the `terraform.tfvars` file and run the following commands:
+To scale the deployment, update the `num_instances` variable in the `terraform.tfvars` file. For example, to scale the deployment to 5 instances, update the `num_instances` variable to 5 and run the following commands:
 
 ```bash
 terraform plan
 terraform apply
 ```
 
-After the infrastructure is created and the new virtual machines are running, you can install the MigratoryData Push Server on the new machines using the following command:
+After the infrastructure is created and the new virtual machines are running, you can install the MigratoryData Push Server on the new virtual machines using the following command:
 
 ```bash
 # used to disable SSH host key checking
